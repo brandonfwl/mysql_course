@@ -1,0 +1,537 @@
+mysql> source /home/bfowler/Documents/Programming/school/spring_2017/mysql_course/bfowler_assignment5/bfowler_assignment5.sql
+Show warnings enabled.
+--------------
+/*  Assignment 5.sql 
+    Brandon Fowler
+    CS 155A, Spring 2017 */
+ 
+ 
+/* Just copy / paste from mysql command-line to a text editor to do this. */
+
+    
+
+/* put the database name into this command */
+
+
+/* Query 0 */
+
+SELECT user(), current_date(), version(), @@sql_mode
+--------------
+
+*************************** 1. row ***************************
+        user(): root@localhost
+current_date(): 2017-02-20
+     version(): 5.7.17-0ubuntu0.16.04.1
+    @@sql_mode: ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+1 row in set (0.00 sec)
+
+--------------
+/* Query 1 */
+DROP DATABASE IF EXISTS library
+--------------
+
+Query OK, 4 rows affected (0.13 sec)
+
+--------------
+CREATE DATABASE library
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+Database changed
+--------------
+/* Query 2 */
+CREATE TABLE branches (
+	branch_id INT(25) PRIMARY KEY NOT NULL,
+	branch_name VARCHAR(25),
+	city VARCHAR(25)) ENGINE=InnoDB
+--------------
+
+Query OK, 0 rows affected (0.06 sec)
+
+--------------
+CREATE TABLE member (
+	card_no INT(25) PRIMARY KEY NOT NULL,
+        last_name VARCHAR(25), 
+	first_name VARCHAR(25), 
+	address VARCHAR(25), 
+	city CHAR(25), 
+	state CHAR(10),
+	zip INT(10),
+	region CHAR(5)) ENGINE=InnoDB
+--------------
+
+Query OK, 0 rows affected (0.06 sec)
+
+--------------
+CREATE TABLE books (
+	ISBN VARCHAR(100) PRIMARY KEY NOT NULL,
+	title VARCHAR(50),
+	pub_date DATE,
+	publisher_id INT(5),
+        category_name VARCHAR(25)) ENGINE=InnoDB
+--------------
+
+Query OK, 0 rows affected (0.06 sec)
+
+--------------
+CREATE TABLE bookloans (
+	ISBN VARCHAR(100),
+	branch_id INT(25),
+	card_no INT(25),
+	date_out DATE,
+	due_date DATE,
+	FOREIGN KEY(ISBN) 
+		REFERENCES books(ISBN)
+		ON DELETE RESTRICT
+		ON UPDATE RESTRICT,
+	FOREIGN KEY(branch_id)
+		REFERENCES branches(branch_id)
+		ON DELETE RESTRICT
+		ON UPDATE RESTRICT,
+	FOREIGN KEY(card_no)
+		REFERENCES member(card_no)
+		ON DELETE RESTRICT
+		ON UPDATE RESTRICT) ENGINE=InnoDB
+--------------
+
+Query OK, 0 rows affected (0.08 sec)
+
+--------------
+/* Query 3 */
+INSERT INTO branches (branch_id,branch_name, city) VALUES
+(1234,'Bayfair', 'San Leandro'),
+(2345,'Cal State', 'Hayward'),
+(3456,'Downtown', 'San Francisco'),
+(45678,'Palo Alto', 'Palo Alto'),
+(5678,'San Mateo', 'San Mateo'),
+(6789,'Foster City', 'Foster City')
+--------------
+
+Query OK, 6 rows affected (0.00 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+--------------
+--
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+-- Insert data for member table
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+--
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+INSERT INTO member
+VALUES (1001, 'MORALES', 'BONITA', 'P.O. BOX 651', 'EASTPOINT', 'FL', '32328', 'SE')
+--------------
+
+Query OK, 1 row affected (0.03 sec)
+
+--------------
+INSERT INTO member
+VALUES (1002, 'THOMPSON', 'RYAN', 'P.O. BOX 9835', 'SANTA MONICA', 'CA', '90404', 'W')
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+INSERT INTO  member 
+VALUES (1003, 'SMITH', 'LEILA', 'P.O. BOX 66', 'TALLAHASSEE', 'FL', '32306', 'SE')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO  member 
+VALUES (1004, 'PIERSON', 'THOMAS', '69821 SOUTH AVENUE', 'BOISE', 'ID', '83707', 'NW')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO  member 
+VALUES (1005, 'GIRARD', 'CINDY', 'P.O. BOX 851', 'SEATTLE', 'WA', '98115', 'NW')
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+INSERT INTO  member 
+VALUES (1006, 'CRUZ', 'MESHIA', '82 DIRT ROAD', 'ALBANY', 'NY', '12211', 'NE')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO  member 
+VALUES (1007, 'GIANA', 'TAMMY', '9153 MAIN STREET', 'AUSTIN', 'TX', '78710', 'SW')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO  member 
+VALUES (1008, 'JONES', 'KENNETH', 'P.O. BOX 137', 'CHEYENNE', 'WY', '82003','N')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO  member 
+VALUES (1009, 'PEREZ', 'JORGE', 'P.O. BOX 8564', 'BURBANK', 'CA', '91510', 'W')
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+INSERT INTO  member 
+VALUES (1010, 'LUCAS', 'JAKE', '114 EAST SAVANNAH', 'ATLANTA', 'GA', '30314', 'SE')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO  member 
+VALUES (1011, 'MCGOVERN', 'REESE', 'P.O. BOX 18', 'CHICAGO', 'IL', '60606', 'N')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO  member 
+VALUES (1012, 'MCKENZIE', 'WILLIAM', 'P.O. BOX 971', 'BOSTON', 'MA', '02110', 'NE')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO  member 
+VALUES (1013, 'NGUYEN', 'NICHOLAS', '357 WHITE EAGLE AVE.', 'CLERMONT', 'FL', '34711', 'SE')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO  member 
+VALUES (1014, 'LEE', 'JASMINE', 'P.O. BOX 2947', 'CODY', 'WY', '82414', 'N')
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+INSERT INTO  member 
+VALUES (1015, 'SCHELL', 'STEVE', 'P.O. BOX 677', 'MIAMI', 'FL', '33111', 'SE')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO  member 
+VALUES (1016, 'DAUM', 'MICHELL', '9851231 LONG ROAD', 'BURBANK', 'CA', '91508', 'W')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO  member 
+VALUES (1017, 'NELSON', 'BECCA', 'P.O. BOX 563', 'KALMAZOO', 'MI', '49006', 'N')
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+INSERT INTO  member 
+VALUES (1018, 'MONTIASA', 'GREG', '1008 GRAND AVENUE', 'MACON', 'GA', '31206', 'SE')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO  member 
+VALUES (1019, 'SMITH', 'JENNIFER', 'P.O. BOX 1151', 'MORRISTOWN', 'NJ', '07962', 'NE')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO  member 
+VALUES (1020, 'FALAH', 'KENNETH', 'P.O. BOX 335', 'TRENTON', 'NJ', '08607', 'NE')
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+ --
+-- Insert data for bookstable
+--
+
+INSERT INTO books
+VALUES ('1059831198','BODYBUILD IN 10 MINUTES A DAY','2005-01-21',4, 'FITNESS')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO books
+VALUES ('0401140733','REVENGE OF MICKEY','2005-12-22',1, 'FAMILY LIFE')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO books
+VALUES ('4981341710','BUILDING A CAR WITH TOOTHPICKS','2016-03-18',2, 'CHILDREN')
+--------------
+
+Query OK, 1 row affected (0.02 sec)
+
+--------------
+INSERT INTO books
+VALUES ('8843172113','DATABASE IMPLEMENTATION','2003-06-04',3, 'COMPUTER')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO books
+VALUES ('3437212490','COOKING WITH MUSHROOMS','2004-02-08',4, 'COOKING')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO books
+VALUES ('3957136468','HOLY GRAIL OF ORACLE','2005-12-31',3, 'COMPUTER')
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+INSERT INTO books
+VALUES ('1915762492','HANDCRANKED COMPUTERS','2005-01-12',3, 'COMPUTER')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO books
+VALUES ('9959789321','E-BUSINESS THE EASY WAY','2006-03-01',2, 'COMPUTER')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO books
+VALUES ('2491748320','PAINLESS CHILD-REARING','2004-07-14',5, 'FAMILY LIFE')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO books
+VALUES ('0299282519','THE WOK WAY TO COOK','2001-09-14',4, 'COOKING')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO books
+VALUES ('8117949391','BIG BEAR AND LITTLE DOVE','2005-11-14',5, 'CHILDREN')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO books
+VALUES ('0132149871','HOW TO GET FASTER PIZZA','2001-11-06',4, 'SELF HELP')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO books
+VALUES ('9247381001','HOW TO MANAGE THE MANAGER','2005-05-03',1,  'BUSINESS')
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+INSERT INTO books
+VALUES ('2147428890','SHORTEST POEMS','2006-05-05',5, 'LITERATURE')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+ 
+--
+-- Insert data for bookloans table
+--
+INSERT INTO bookloans VALUES ('4981341710', 1234, 1001,'2015-01-21', '2015-02-21')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO bookloans VALUES ('8843172113', 1234, 1003,'2015-12-22', '2016-01-22')
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+INSERT INTO bookloans VALUES ('3437212490', 2345, 1005,'2013-06-04','2013-07-04')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO bookloans VALUES ('3957136468', 3456, 1010, '2014-02-08', '2014-02-08')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO bookloans VALUES ('1915762492', 3456, 1011,'2015-12-31', '2016-01-31')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO bookloans VALUES ('9959789321', 5678, 1004, '2015-01-12','2015-02-12')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO bookloans VALUES ('2491748320', 45678, 1004, '2016-01-12','2016-02-12')
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+INSERT INTO bookloans VALUES ('0299282519', 5678, 1006, '2015-03-12','2015-04-12')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO bookloans VALUES ('8117949391', 6789, 1008, '2015-01-22','2015-06-12')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO bookloans VALUES ('9247381001', 3456, 1012, '2015-04-12','2015-05-12')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO bookloans VALUES ('2147428890', 2345, 1014, '2015-08-12','2015-09-12' )
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+/* Query 4 */
+SELECT ISBN, title, publisher_id FROM books
+--------------
+
++------------+--------------------------------+--------------+
+| ISBN       | title                          | publisher_id |
++------------+--------------------------------+--------------+
+| 0132149871 | HOW TO GET FASTER PIZZA        |            4 |
+| 0299282519 | THE WOK WAY TO COOK            |            4 |
+| 0401140733 | REVENGE OF MICKEY              |            1 |
+| 1059831198 | BODYBUILD IN 10 MINUTES A DAY  |            4 |
+| 1915762492 | HANDCRANKED COMPUTERS          |            3 |
+| 2147428890 | SHORTEST POEMS                 |            5 |
+| 2491748320 | PAINLESS CHILD-REARING         |            5 |
+| 3437212490 | COOKING WITH MUSHROOMS         |            4 |
+| 3957136468 | HOLY GRAIL OF ORACLE           |            3 |
+| 4981341710 | BUILDING A CAR WITH TOOTHPICKS |            2 |
+| 8117949391 | BIG BEAR AND LITTLE DOVE       |            5 |
+| 8843172113 | DATABASE IMPLEMENTATION        |            3 |
+| 9247381001 | HOW TO MANAGE THE MANAGER      |            1 |
+| 9959789321 | E-BUSINESS THE EASY WAY        |            2 |
++------------+--------------------------------+--------------+
+14 rows in set (0.01 sec)
+
+--------------
+/* Query 5 */
+ALTER TABLE books ADD COLUMN (date_added TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)
+--------------
+
+Query OK, 0 rows affected (0.13 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+/* Query 6 */
+ALTER TABLE member MODIFY COLUMN first_name VARCHAR(20) NOT NULL
+--------------
+
+Query OK, 20 rows affected (0.15 sec)
+Records: 20  Duplicates: 0  Warnings: 0
+
+--------------
+/* Query 7 */
+DESCRIBE books
+--------------
+
++---------------+--------------+------+-----+-------------------+-----------------------------+
+| Field         | Type         | Null | Key | Default           | Extra                       |
++---------------+--------------+------+-----+-------------------+-----------------------------+
+| ISBN          | varchar(100) | NO   | PRI | NULL              |                             |
+| title         | varchar(50)  | YES  |     | NULL              |                             |
+| pub_date      | date         | YES  |     | NULL              |                             |
+| publisher_id  | int(5)       | YES  |     | NULL              |                             |
+| category_name | varchar(25)  | YES  |     | NULL              |                             |
+| date_added    | timestamp    | NO   |     | CURRENT_TIMESTAMP | on update CURRENT_TIMESTAMP |
++---------------+--------------+------+-----+-------------------+-----------------------------+
+6 rows in set (0.00 sec)
+
+--------------
+DESCRIBE member
+--------------
+
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| card_no    | int(25)     | NO   | PRI | NULL    |       |
+| last_name  | varchar(25) | YES  |     | NULL    |       |
+| first_name | varchar(20) | NO   |     | NULL    |       |
+| address    | varchar(25) | YES  |     | NULL    |       |
+| city       | char(25)    | YES  |     | NULL    |       |
+| state      | char(10)    | YES  |     | NULL    |       |
+| zip        | int(10)     | YES  |     | NULL    |       |
+| region     | char(5)     | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+--------------
+/* Query 8 */
+SELECT branch_id, branch_name, city FROM branches
+--------------
+
++-----------+-------------+---------------+
+| branch_id | branch_name | city          |
++-----------+-------------+---------------+
+|      1234 | Bayfair     | San Leandro   |
+|      2345 | Cal State   | Hayward       |
+|      3456 | Downtown    | San Francisco |
+|      5678 | San Mateo   | San Mateo     |
+|      6789 | Foster City | Foster City   |
+|     45678 | Palo Alto   | Palo Alto     |
++-----------+-------------+---------------+
+6 rows in set (0.00 sec)
+
+mysql> notee;

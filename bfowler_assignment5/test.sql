@@ -1,0 +1,25 @@
+
+/*
+CREATE TABLE VEHICLE (
+	VehicleID INT(5) PRIMARY KEY NOT NULL,
+	Type VARCHAR(10),
+	Make VARCHAR(10),
+	OwnderID INT(5),
+	OwnerName VARCHAR(15)) ENGINE=InnoDB;
+*/
+
+CREATE TABLE Hotel(
+	hotelNo INT(5) PRIMARY KEY NOT NULL,
+	hotelName VARCHAR(15),
+	city VARCHAR(25)) ENGINE=InnoDB;
+
+CREATE TABLE Room (
+	roomNo INT,
+	hotelNo INT,
+	price DECIMAL(10,2),
+	PRIMARY KEY (roomNo, hotelNo),
+	FOREIGN KEY(hotelNo) 
+		REFERENCES Hotel(hotelNo)
+		ON DELETE RESTRICT
+		ON UPDATE RESTRICT) ENGINE=InnoDB;
+
